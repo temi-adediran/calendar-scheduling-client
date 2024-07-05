@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useAuth } from "../hooks/useAuth";
+import { Button } from "flowbite-react";
 
 function Home() {
   const { login } = useAuth();
@@ -18,10 +19,10 @@ function Home() {
     <>
       <br />
       <br />
-      <button onClick={signInAsCoach}>Log in as Coach</button>
+      <Button onClick={signInAsCoach}>Log in as Coach</Button>
       <br />
       <br />
-      <button onClick={signInAsStudent}>Log in as Student</button>
+      <Button onClick={signInAsStudent}>Log in as Student</Button>
     </>
   )
 }

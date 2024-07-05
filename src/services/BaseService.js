@@ -26,7 +26,6 @@ export const BaseService = {
     if (request.status >= 400) throw request;
     if (isAuth) {
       const token = request.headers.get(AUTH_TOKEN);
-      console.log(token);
       sessionStorage.setItem(AUTH_TOKEN, token);
     }
     return request.json();

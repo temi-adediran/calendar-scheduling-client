@@ -20,7 +20,6 @@ const AuthProvider = ({ children }) => {
 
     try {
       const response = await BaseService.post("login", data, true);
-      console.log(response.message);
 
       setIsAuthenticated(type);
       localStorage.setItem(AUTH_USER, `${type}`)

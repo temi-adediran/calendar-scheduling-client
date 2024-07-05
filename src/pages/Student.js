@@ -1,7 +1,10 @@
 import * as React from "react";
+import DisplayCalendar from '../components/DisplayCalendar';
 
 function Student() {
-  return <h1>You're in the student page.</h1>
+  return (
+    <DisplayCalendar />
+  )
 }
 
 export default Student;

@@ -1,7 +1,13 @@
-import * as React from "react";
+import Navigation from "../components/Navigation";
 
 function Coach() {
-  return <h1>You're in the coach page.</h1>
+
+  return (
+    <div>
+      <Navigation />
+
+    </div>
+  )
 }
 
 export default Coach;
