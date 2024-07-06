@@ -2,16 +2,7 @@ import { useEffect, useState } from "react";
 import TimeSlot from "./TimeSlot";
 import { Checkbox, Label } from "flowbite-react";
 
-function TimeSlots({ day, selectedTimeSlots, setSelectedTimeSlots }) {
-  const handleAddSlot = () => { }
-
-  const handleRemoveSlot = (e, index) => {
-    e.preventDefault();
-    const timeSlot = selectedTimeSlots[day][index];
-    const updatedTimeSlots = selectedTimeSlots[day].filter((time) => timeSlot !== time);
-    setSelectedTimeSlots({ ...selectedTimeSlots, [day]: updatedTimeSlots })
-  }
-
+function TimeSlots({ day, selectedTimeSlots, setSelectedTimeSlots, handleAddSlot, handleRemoveSlot }) {
   return (
     <>
       <div className="flex">
@@ -41,7 +32,7 @@ function TimeSlots({ day, selectedTimeSlots, setSelectedTimeSlots }) {
       </div>
 
       <div className="pl-4">
-        <button onClick={handleAddSlot()}>+</button>
+        <button onClick={(e) => handleAddSlot(e, day)}>+</button>
       </div>
     </>
   );
