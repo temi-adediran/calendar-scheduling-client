@@ -92,7 +92,7 @@ function RecurringTimeSlots() {
             </div>
           ))}
         </div>
-        <Button type="submit">Submit</Button>
+        <Button color="blue" type="submit">Submit</Button>
       </form>
     </div>
   );

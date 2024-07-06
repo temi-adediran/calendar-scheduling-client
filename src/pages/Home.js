@@ -19,10 +19,10 @@ function Home() {
     <div className="mx-auto flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
       <br />
       <br />
-      <Button onClick={signInAsCoach}>Log in as Coach</Button>
+      <Button gradientDuoTone="purpleToBlue" onClick={signInAsCoach}>Log in as Coach</Button>
       <br />
       <br />
-      <Button onClick={signInAsStudent}>Log in as Student</Button>
+      <Button gradientDuoTone="purpleToBlue" onClick={signInAsStudent}>Log in as Student</Button>
     </div>
   )
 }
