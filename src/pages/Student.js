@@ -1,15 +1,15 @@
 import * as React from "react";
-import DisplayCalendar from '../components/DisplayCalendar';
+import BookSession from '../components/BookSession';
 
 function Student() {
   return (
-    <div className="m-8">
-      <div className="flex items-baseline m-4">
-        <div className="m-8">
-          <div>Schedule a Stepful Coaching Call with Coach</div>
+    <div className="mt-8 mx-auto flex flex-col justify-center">
+      <div className="flex items-center m-8">
+        <div className="text-justify m-8">
+          <div>Stepful Coaching Call with "Coach Name"</div>
           <div>Time: 2 Hours</div>
         </div>
-        <DisplayCalendar />
+        <BookSession />
       </div>
     </div>
   )

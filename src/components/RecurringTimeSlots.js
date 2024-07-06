@@ -18,7 +18,7 @@ const defaultTimeSlots = () => {
   return obj;
 }
 
-
+// Add comments to this file
 
 function RecurringTimeSlots() {
   const [selectedTimeSlots, setSelectedTimeSlots] = useState(initialState);
@@ -85,7 +85,6 @@ function RecurringTimeSlots() {
               <TimeSlots
                 day={day}
                 selectedTimeSlots={selectedTimeSlots}
-                setSelectedTimeSlots={setSelectedTimeSlots}
                 handleAddSlot={handleAddSlot}
                 handleRemoveSlot={handleRemoveSlot}
                 handleUpdateTimeSlot={handleUpdateTimeSlot}

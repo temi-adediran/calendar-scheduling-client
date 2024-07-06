@@ -1,14 +1,29 @@
 import React from 'react';
+import { Button } from "flowbite-react";
 
 const BookTimeSlot = ({ date, onTimeSelect }) => {
-  const availableTimes = ['10:00 AM', '11:00 AM', '12:00 PM'];
+  const availableTimeSlots = ['10:00', '12:00', '14:00'];
 
   return (
     <div>
-      <h2>Select a Time for {date}</h2>
-      {availableTimes.map(time => (
-        <div key={time} onClick={() => onTimeSelect(time)}>{time}</div>
-      ))}
+      <div>
+        <h1 className='mb-4'>"date"</h1>
+      </div>
+      <div>
+        <ul>
+          {availableTimeSlots.map(time => (
+            <li key={time} className="mb-4">
+              <Button
+                onClick={() => onTimeSelect(time)}
+                outline
+                color="blue"
+              >
+                {time}
+              </Button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
