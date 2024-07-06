@@ -9,10 +9,10 @@ function Navigation() {
         <Button><Link to="/availability">Availability</Link></Button>
       </li>
       <li className="pr-8">
-        <Button><Link to="/upcoming-calls">Upcoming calls</Link></Button>
+        <Button><Link to="/coach">Upcoming sessions</Link></Button>
       </li>
       <li>
-        <Button><Link to="/rating">Past sessions</Link></Button>
+        <Button><Link to="/past-sessions">Past sessions</Link></Button>
       </li>
     </ul>
   );

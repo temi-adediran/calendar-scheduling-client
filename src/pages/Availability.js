@@ -4,7 +4,7 @@ import { Card } from "flowbite-react";
 
 function Availability() {
   return (
-    <>
+    <div className="mx-auto flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
       <Navigation />
       <h1>Enter Availability For Stepful Coaching Calls</h1>
       <br />
@@ -13,7 +13,7 @@ function Availability() {
           <Card className="p-8 mr-8 max-w-lg">
             <div>
               <div>
-                <h3 className="mb-4">Recurring Weekly Availability</h3>
+                <h3 className="">Recurring Weekly Availability</h3>
                 <br />
               </div>
               <RecurringTimeSlots />
@@ -33,8 +33,7 @@ function Availability() {
           </Card>
         </div>
       </div>
-
-    </>
+    </div>
   )
 }
 

@@ -3,21 +3,16 @@ import { useEffect, useState } from "react";
 import { getCalculatedTime } from "../utils/functions";
 import { startTimeIntervals, endTimeIntervals } from "../utils/constants";
 
-function TimeSlot({ day, timeSlot, index, selectedTimeSlots, setSelectedTimeSlots, handleRemoveSlot }) {
+function TimeSlot({ day, index, timeSlot, handleRemoveSlot, handleUpdateTimeSlot }) {
   const [endTime, setEndTime] = useState(getCalculatedTime(timeSlot));
 
-  const handleUpdateTimeSlot = (e) => {
-    const newStartTime = e.target.value;
-    setEndTime(getCalculatedTime(newStartTime));
-
-    const dayTimeSlots = selectedTimeSlots[day];
-    dayTimeSlots[index] = newStartTime;
-    setSelectedTimeSlots({ ...selectedTimeSlots, [day]: dayTimeSlots })
-  }
+  useEffect(() => {
+    setEndTime(getCalculatedTime(timeSlot));
+  }, [timeSlot])
 
   return (
     <div className="flex items-center">
-      <Select id="start-time" value={timeSlot} onChange={handleUpdateTimeSlot}>
+      <Select id="start-time" value={timeSlot} onChange={(e) => handleUpdateTimeSlot(e, day, index)}>
         {startTimeIntervals.map((time) => (
           <option key={time}>{time}</option>
         ))}

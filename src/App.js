@@ -9,11 +9,11 @@ const Home = React.lazy(() => import("./pages/Home"));
 const Coach = React.lazy(() => import("./pages/Coach"));
 const Student = React.lazy(() => import("./pages/Student"));
 const Availability = React.lazy(() => import("./pages/Availability"));
-const UpcomingCalls = React.lazy(() => import("./pages/UpcomingCalls"));
+const PastSessions = React.lazy(() => import("./pages/PastSessions"));
 
 function App() {
   return (
-    <div className="App mx-auto flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
+    <div className="App">
       <Router>
         <AuthProvider>
           <React.Suspense fallback={<Loading />}>
@@ -22,7 +22,8 @@ function App() {
               <Route path="/coach" element={<Coach />} />
               <Route path="/student" element={<Student />} />
               <Route path="/availability" element={<Availability />} />
-              <Route path="/upcoming-calls" element={<UpcomingCalls />} />
+              <Route path="/upcoming-sessions" element={<Coach />} />
+              <Route path="/past-sessions" element={<PastSessions />} />
             </Routes>
           </React.Suspense>
         </AuthProvider>

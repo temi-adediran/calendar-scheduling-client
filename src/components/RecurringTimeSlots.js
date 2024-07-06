@@ -5,24 +5,23 @@ import { Button } from "flowbite-react";
 import { days } from "../utils/constants";
 import { getCalculatedTime } from "../utils/functions";
 
+const initialState = { 'MON': [], 'TUE': [], 'WED': [], 'THUR': [], 'FRI': [], 'SAT': [], 'SUN': [] }
+
 const defaultTimeSlots = () => {
   const obj = {}
+  const startOfBusinessHours = "9:00"
   const weekEnd = ["SAT", "SUN"];
   days.map((day) => {
-    const timeSlots = weekEnd.includes(day) ? [] : ["9:00"];
+    const timeSlots = weekEnd.includes(day) ? [] : [startOfBusinessHours];
     obj[day] = timeSlots;
   })
   return obj;
 }
 
-const defaultSelectedTimeSlots = { 'MON': [], 'TUE': [], 'WED': [], 'THUR': [], 'FRI': [], 'SAT': [], 'SUN': [] }
-
 
 
 function RecurringTimeSlots() {
-  const [selectedTimeSlots, setSelectedTimeSlots] = useState(defaultSelectedTimeSlots);
-
-  const handleSubmit = () => { }
+  const [selectedTimeSlots, setSelectedTimeSlots] = useState(initialState);
 
   useEffect(() => {
     const getAvailableDates = async () => {
@@ -37,10 +36,34 @@ function RecurringTimeSlots() {
     getAvailableDates();
   }, [])
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // if any timeslot is overlapping another, alert and return error
+
+    const submitRecurringHours = async (data) => {
+      try {
+        const response = await BaseService.post("post_recurring_hours", data );
+        console.log(response.message);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    submitRecurringHours({ "recurring_hour": selectedTimeSlots });
+  }
+
+  const handleUpdateTimeSlot = (e, day, index) => {
+    const newStartTime = e.target.value;
+    const dayTimeSlots = selectedTimeSlots[day];
+    dayTimeSlots[index] = newStartTime;
+    setSelectedTimeSlots({ ...selectedTimeSlots, [day]: dayTimeSlots })
+  }
+
   const handleAddSlot = (e, day) => {
     e.preventDefault()
+    const defaultLastIndexTimeSlot = "6:00"
     const currentTimeSlots = selectedTimeSlots[day];
-    const lastIndexTimeSlot = currentTimeSlots[currentTimeSlots.length - 1]
+    const lastIndexTimeSlot = currentTimeSlots[currentTimeSlots.length - 1] || defaultLastIndexTimeSlot
     const newTimeSlot = getCalculatedTime(lastIndexTimeSlot, 3);
     const updatedTimeSlots = [...currentTimeSlots, newTimeSlot];
     setSelectedTimeSlots({ ...selectedTimeSlots, [day]: updatedTimeSlots })
@@ -65,6 +88,7 @@ function RecurringTimeSlots() {
                 setSelectedTimeSlots={setSelectedTimeSlots}
                 handleAddSlot={handleAddSlot}
                 handleRemoveSlot={handleRemoveSlot}
+                handleUpdateTimeSlot={handleUpdateTimeSlot}
               />
             </div>
           ))}
