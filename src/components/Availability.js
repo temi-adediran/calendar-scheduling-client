@@ -1,13 +1,11 @@
-import Navigation from "../components/Navigation";
-import RecurringTimeSlots from '../components/RecurringTimeSlots';
+import RecurringTimeSlots from './RecurringTimeSlots';
 import { Card } from "flowbite-react";
-import SpecificTimeSlots from "../components/SpecificTimeSlots";
+import SpecificTimeSlots from "./SpecificTimeSlots";
 
 function Availability() {
   return (
     <div className="mx-auto flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
-      <Navigation />
-      <h1>Enter Availability For Stepful Coaching Calls</h1>
+      <h2>Enter Availability For Stepful Coaching Calls</h2>
       <br />
       <div className="flex">
         <div>

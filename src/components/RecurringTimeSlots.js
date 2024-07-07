@@ -13,7 +13,7 @@ const defaultTimeSlots = () => {
   const weekEnd = ["SAT", "SUN"];
   days.map((day) => {
     const timeSlots = weekEnd.includes(day) ? [] : [startOfBusinessHours];
-    obj[day] = timeSlots;
+    return obj[day] = timeSlots;
   })
   return obj;
 }
@@ -42,9 +42,12 @@ function RecurringTimeSlots() {
 
     const submitRecurringHours = async (data) => {
       try {
-        const response = await BaseService.post("post_recurring_hours", data );
+        const response = await BaseService.post("post_recurring_hours", data);
+        alert("Submitted successfully.")
         console.log(response.message);
+        // after submission, redirect to view calendar
       } catch (e) {
+        alert("Error while submitting. Please try again.")
         console.log(e);
       }
     }

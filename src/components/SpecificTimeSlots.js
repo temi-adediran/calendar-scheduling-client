@@ -12,7 +12,7 @@ function SpecificTimeSlots() {
         <p className="mb-4">Override your availability for specific dates when your hours differ from your regular weekly hours.</p>
       </div>
 
-      <div>
+      <div className="mb-16">
         <div className="pt-4">
           <Button
             onClick={() => setShowCalendar(true)}
@@ -57,7 +57,7 @@ function DisplayCalendar() {
     <div>
       <div className="">
         <div>
-          <h1 className='mb-8'>Select the date(s) you want to assign specific hours</h1>
+          <p className='mb-8'>Select the date you want to assign specific hours</p>
         </div>
         <div className="flex">
           <div className='mr-8'>
