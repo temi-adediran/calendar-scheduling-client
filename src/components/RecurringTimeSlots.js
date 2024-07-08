@@ -45,7 +45,6 @@ function RecurringTimeSlots() {
         const response = await BaseService.post("post_recurring_hours", data);
         alert("Submitted successfully.")
         console.log(response.message);
-        // after submission, redirect to view calendar
       } catch (e) {
         alert("Error while submitting. Please try again.")
         console.log(e);

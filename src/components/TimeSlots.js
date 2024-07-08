@@ -1,5 +1,6 @@
 import TimeSlot from "./TimeSlot";
 import { Checkbox, Label } from "flowbite-react";
+import UnavailableDate from "./UnavailableDate";
 
 function TimeSlots({ day, selectedTimeSlots, handleAddSlot, handleRemoveSlot, handleUpdateTimeSlot }) {
   return (
@@ -12,7 +13,7 @@ function TimeSlots({ day, selectedTimeSlots, handleAddSlot, handleRemoveSlot, ha
       <div>
         {
           selectedTimeSlots[day].length === 0 ? (
-            <span className="text-gray-400">Unavailable</span>
+            <UnavailableDate />
           ) : (
             selectedTimeSlots[day].map((timeSlot, index) => {
               return (

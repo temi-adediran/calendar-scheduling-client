@@ -42,11 +42,12 @@ export const BaseService = {
     return request.json();
   },
 
-  async delete(url) {
+  async delete(url, data = {}) {
     const headers = getHeaders();
     const request = await fetch(`${API_URL}/${url}`, {
       headers,
       method: 'DELETE',
+      body: JSON.stringify(data),
     });
     if (request.status >= 400) throw request;
     return request.json();

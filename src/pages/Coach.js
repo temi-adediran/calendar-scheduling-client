@@ -4,23 +4,23 @@ import UpcomingSessions from "../components/UpcomingSessions";
 import Availability from '../components/Availability';
 import PastSessions from '../components/PastSessions';
 
-const tabContext = createContext({
+const TabContext = createContext({
   activeTabValue: null,
   setActiveTabValue: () => {}
 });
 
 function TabProvider({children}) {
-  const [activeTabValue, setActiveTabValue] = useState('upcoming-sessions');
+  const [activeTabValue, setActiveTabValue] = useState('availability');
 
   return (
-    <tabContext.Provider value={{activeTabValue, setActiveTabValue}}>
+    <TabContext.Provider value={{activeTabValue, setActiveTabValue}}>
       {children}
-    </tabContext.Provider>
+    </TabContext.Provider>
   );
 }
 
 function TabTrigger({ value, children }) {
-  const { activeTabValue, setActiveTabValue } = useContext(tabContext);
+  const { activeTabValue, setActiveTabValue } = useContext(TabContext);
 
   const handleSetActiveTabValue = () => {
     setActiveTabValue(value);
@@ -41,7 +41,7 @@ function TabTrigger({ value, children }) {
 }
 
 function TabContent({value, children}) {
-  const {activeTabValue} = useContext(tabContext);
+  const {activeTabValue} = useContext(TabContext);
 
   if(activeTabValue !== value) return null;
 
@@ -55,7 +55,7 @@ function Coach() {
     <div className="mx-auto flex flex-col justify-center px-6 pt-8 pt:mt-0">
       <section>
         <h1 className="mb-8">Coach Dashboard</h1>
-        <TabProvider defaultValue="upcoming-sessions">
+        <TabProvider>
           <div className="tabs flex justify-center">
             <TabTrigger value="upcoming-sessions">Upcoming Sessions</TabTrigger>
             <TabTrigger value="past-sessions">Past Sessions</TabTrigger>
