@@ -2,62 +2,100 @@ import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import BookTimeSlot from "./BookTimeSlot";
+import { BaseService } from '../services/BaseService';
+import { formatDate } from '../utils/functions';
 
-// get all available dates for the month
-// when a date is selected, set the timeSlot for the date
 
 function BookSession() {
   const today = new Date();
   const [date, setDate] = useState(today);
-  const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
+  const [month, setMonth] = useState(formatDate(today));
+  const [availableSlotsByMonth, setAvailableSlotsByMonth] = useState({[formatDate(today)]: []});
+  const [dailyTimeSlots, setDailyTimeSlots] = useState([]);
 
   useEffect(() => {
-    // get available dates with timeSlots for the month
-    // do this every time the change month arrow is clicked
-  })
+    const thisMonth = formatDate(today)
+    setMonth(thisMonth);
+    getAvailableDatesByMonth();
+  }, [])
+
+  useEffect(() => {
+    const timeSlots = availableSlotsByMonth[formatDate(date)];
+    setDailyTimeSlots(timeSlots);
+  }, [availableSlotsByMonth, date])
+
+  const handleChangeMonth = ({ activeStartDate }) => {
+    const selectedMonth = formatDate(activeStartDate);
+    setMonth(selectedMonth);
+    getAvailableDatesByMonth();
+  }
+
+  const getAvailableDatesByMonth = async () => {
+    try {
+      const response = await BaseService.get(`available_slots_by_month?month=${month}&id=5`);
+      setAvailableSlotsByMonth(response);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   const handleChange = (date) => {
     setDate(date);
-    // set available slots for date
+    const timeSlots = availableSlotsByMonth[formatDate(date)];
+    setDailyTimeSlots(timeSlots);
   }
 
-  const handleSubmit = () => {
-    // submit booking for student
+  const handleSubmit = async (date, time) => {
+    const formattedDate = formatDate(date);
+    try {
+      const response = await BaseService.post("book_session", { date: formattedDate, time: time });
+      const timeSlots = availableSlotsByMonth[formattedDate];
+      const updatedTimeSlots = timeSlots.filter((t) => t !== time);
+      setAvailableSlotsByMonth({ ...availableSlotsByMonth, [formattedDate]: updatedTimeSlots });
+      alert(response.message);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   const onTimeSelect = (time) => {
-    console.log(time);
-    // add animation to show confirm button
+    if (window.confirm(`Please confirm booking for ${formatDate(date)} ${time}`)) {
+      handleSubmit(date, time);
+    }
   }
 
-  const disabledDates = () => {
-    // set dates that are []
+  const disabledDates = ({ activeStartDate, date }) => {
+    const currentMonth = activeStartDate.getMonth();
+    const nextMonth = currentMonth + 1;
+    return date.getMonth() === nextMonth;
   }
 
   return (
     <div>
       <div className="">
         <div>
-          <h1 className='mb-8'>Select a Date & Time</h1>
+          <h1 className='mb-8 text-start'>Select a Date & Time</h1>
         </div>
-        <div className="flex">
+        <div className="flex text-start">
           <div className='mr-8'>
             <div>
               <
                 Calendar
                 value={date}
                 onChange={handleChange}
+                onActiveStartDateChange={handleChangeMonth}
                 view={"month"}
                 minDate={today}
                 prev2Label={null}
                 next2Label={null}
+                tileDisabled={disabledDates}
               />
             </div>
           </div>
           <div>
             <BookTimeSlot
-              date={date}
-              availableTimeSlots={availableTimeSlots}
+              date={formatDate(date)}
+              dailyTimeSlots={dailyTimeSlots}
               onTimeSelect={onTimeSelect}
             />
           </div>

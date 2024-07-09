@@ -5,7 +5,7 @@ import { Button } from "flowbite-react";
 import { days } from "../utils/constants";
 import { getCalculatedTime } from "../utils/functions";
 
-const initialState = { 'MON': [], 'TUE': [], 'WED': [], 'THUR': [], 'FRI': [], 'SAT': [], 'SUN': [] }
+const initialState = { 'MON': [], 'TUE': [], 'WED': [], 'THU': [], 'FRI': [], 'SAT': [], 'SUN': [] }
 
 const defaultTimeSlots = () => {
   const obj = {}

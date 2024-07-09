@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { getCalculatedTime } from "../utils/functions";
+import { getCalculatedTime, formatDate } from "../utils/functions";
 import TimeSlot from "./TimeSlot";
 import { Button } from "flowbite-react";
 import { BaseService } from '../services/BaseService';
@@ -32,9 +32,8 @@ function AvailableDates({ handleCloseCalendar }) {
         console.log(e);
       }
     }
-    const formattedDate = date.toLocaleString().split(',')[0];
 
-    submitAvailableDates({ "available_dates": {date: formattedDate, time_slots: timeSlots} });
+    submitAvailableDates({ "available_dates": {date: formatDate(date), time_slots: timeSlots} });
   }
 
   const handleAddSlot = (e) => {
