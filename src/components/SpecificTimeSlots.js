@@ -26,7 +26,6 @@ function DisplayAvailableDates() {
     const deleteAvailableDate = async (data) => {
       try {
         const response = await BaseService.delete("delete_available_date", data)
-        console.log(response);
 
         const updatedAvailableDates = availableDates.filter((date) => date.id !== id)
         SetAvailableDates(updatedAvailableDates);

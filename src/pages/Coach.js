@@ -10,7 +10,7 @@ const TabContext = createContext({
 });
 
 function TabProvider({children}) {
-  const [activeTabValue, setActiveTabValue] = useState('availability');
+  const [activeTabValue, setActiveTabValue] = useState('upcoming-sessions');
 
   return (
     <TabContext.Provider value={{activeTabValue, setActiveTabValue}}>

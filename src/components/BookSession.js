@@ -77,6 +77,10 @@ function BookSession() {
           <h1 className='mb-8 text-start'>Select a Date & Time</h1>
         </div>
         <div className="flex text-start">
+          <div className="text-justify m-8">
+            <div>Stepful Coaching Call with "Coach Name"</div>
+            <div>Time: 2 Hours</div>
+          </div>
           <div className='mr-8'>
             <div>
               <

@@ -1,9 +1,65 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
+import { BaseService } from '../services/BaseService';
+import { useAuth } from "../hooks/useAuth";
+import { Card } from "flowbite-react";
+import { getCalculatedTime, formatDate } from "../utils/functions";
 
 function UpcomingSessions() {
+  const { isAuthenticated } = useAuth();
+  const [upcomingSessions, setUpcomingSessions] = useState([]);
+
+  useEffect(() => {
+    const getUpcomingSessions = async () => {
+      try {
+        const response = await BaseService.get(`upcoming_session?user_type=${isAuthenticated}`);
+        setUpcomingSessions(response);
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    getUpcomingSessions();
+  }, [isAuthenticated])
+
+
   return (
     <div className="mx-auto flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">
-      <h1>You're in the Upcoming Sessions page.</h1>
+      <div>
+        <h2 className="mb-8">Upcoming Sessions</h2>
+      </div>
+
+      <div>
+        {
+          upcomingSessions.length === 0 ? (
+            <Card>
+              <div>
+                <span>No upcoming sessions.</span>
+              </div>
+            </Card>
+          ) : (
+            upcomingSessions.map((session, index) => {
+              return (
+                <div key={index} className="mb-4">
+                  <Card className="max-w-sm">
+                    <div>
+                      <h3>{formatDate(new Date(session.time_booked))}</h3>
+                    </div>
+                    <div>
+                      { session.start_time } - { getCalculatedTime(session.start_time) }
+                    </div>
+                    <hr></hr>
+                    <div>Coach: {session.coach_name}</div>
+                    <div className="mb-4">Phone no: {session.coach_phone_no} </div>
+
+                    <div>Student: {session.student_name}</div>
+                    <div>Phone no: {session.student_phone_no}</div>
+                  </Card>
+                </div>
+              )
+            })
+          )
+        }
+      </div>
     </div>
   )
 }

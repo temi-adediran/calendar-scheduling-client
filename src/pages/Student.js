@@ -1,5 +1,8 @@
 import * as React from "react";
 import BookSession from '../components/BookSession';
+import { Button } from "flowbite-react";
+import { Link } from "react-router-dom";
+import UpcomingSessions from "../components/UpcomingSessions";
 
 // add buttons to pull different coach calendars
 
@@ -7,10 +10,12 @@ function Student() {
   return (
     <div className="mt-8 mx-auto flex flex-col justify-center">
       <div className="flex items-center m-8">
-        <div className="text-justify m-8">
-          <div>Stepful Coaching Call with "Coach Name"</div>
-          <div>Time: 2 Hours</div>
+        <div>
+          <li className="pr-8">
+            <Button outline gradientDuoTone="purpleToBlue"><Link to="/student">Upcoming sessions</Link></Button>
+          </li>
         </div>
+        <UpcomingSessions />
         <BookSession />
       </div>
     </div>
