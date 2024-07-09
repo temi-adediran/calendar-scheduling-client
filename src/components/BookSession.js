@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, act } from 'react';
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import BookTimeSlot from "./BookTimeSlot";
@@ -10,48 +10,44 @@ function BookSession() {
   const today = new Date();
   const [date, setDate] = useState(today);
   const [month, setMonth] = useState(formatDate(today));
-  const [availableSlotsByMonth, setAvailableSlotsByMonth] = useState({[formatDate(today)]: []});
-  const [dailyTimeSlots, setDailyTimeSlots] = useState([]);
+  const [monthlyTimeSlots, setMonthlyTimeSlots] = useState({ [formatDate(today)]: [] });
+
 
   useEffect(() => {
-    const thisMonth = formatDate(today)
+    const thisMonth = formatDate(new Date())
     setMonth(thisMonth);
-    getAvailableDatesByMonth();
   }, [])
 
   useEffect(() => {
-    const timeSlots = availableSlotsByMonth[formatDate(date)];
-    setDailyTimeSlots(timeSlots);
-  }, [availableSlotsByMonth, date])
-
-  const handleChangeMonth = ({ activeStartDate }) => {
-    const selectedMonth = formatDate(activeStartDate);
-    setMonth(selectedMonth);
     getAvailableDatesByMonth();
-  }
+  }, [month])
 
   const getAvailableDatesByMonth = async () => {
     try {
       const response = await BaseService.get(`available_slots_by_month?month=${month}&id=5`);
-      setAvailableSlotsByMonth(response);
+      setMonthlyTimeSlots(response);
     } catch (e) {
       console.log(e);
     }
   }
 
+  const handleMonthChange = ({ activeStartDate }) => {
+    const selectedMonth = formatDate(activeStartDate);
+    setMonth(selectedMonth);
+    setDate(activeStartDate);
+  }
+
   const handleChange = (date) => {
     setDate(date);
-    const timeSlots = availableSlotsByMonth[formatDate(date)];
-    setDailyTimeSlots(timeSlots);
   }
 
   const handleSubmit = async (date, time) => {
     const formattedDate = formatDate(date);
     try {
       const response = await BaseService.post("book_session", { date: formattedDate, time: time });
-      const timeSlots = availableSlotsByMonth[formattedDate];
+      const timeSlots = monthlyTimeSlots[formattedDate];
       const updatedTimeSlots = timeSlots.filter((t) => t !== time);
-      setAvailableSlotsByMonth({ ...availableSlotsByMonth, [formattedDate]: updatedTimeSlots });
+      setMonthlyTimeSlots({ ...monthlyTimeSlots, [formattedDate]: updatedTimeSlots });
       alert(response.message);
     } catch (e) {
       console.log(e);
@@ -78,7 +74,7 @@ function BookSession() {
         </div>
         <div className="flex text-start">
           <div className="text-justify m-8">
-            <div>Stepful Coaching Call with "Coach Name"</div>
+            <div>Schedule a Stepful Coaching Call with "Coach Name"</div>
             <div>Time: 2 Hours</div>
           </div>
           <div className='mr-8'>
@@ -87,7 +83,7 @@ function BookSession() {
                 Calendar
                 value={date}
                 onChange={handleChange}
-                onActiveStartDateChange={handleChangeMonth}
+                onActiveStartDateChange={handleMonthChange}
                 view={"month"}
                 minDate={today}
                 prev2Label={null}
@@ -99,7 +95,7 @@ function BookSession() {
           <div>
             <BookTimeSlot
               date={formatDate(date)}
-              dailyTimeSlots={dailyTimeSlots}
+              monthlyTimeSlots={monthlyTimeSlots}
               onTimeSelect={onTimeSelect}
             />
           </div>

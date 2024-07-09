@@ -1,7 +1,10 @@
 import React from 'react';
 import { Button } from "flowbite-react";
+import { formatDate } from '../utils/functions';
 
-const BookTimeSlot = ({ date, dailyTimeSlots, onTimeSelect }) => {
+const BookTimeSlot = ({ date, monthlyTimeSlots, onTimeSelect }) => {
+  const dailyTimeSlots = monthlyTimeSlots[formatDate(date)];
+
   return (
     <div>
       <div>
@@ -9,14 +12,14 @@ const BookTimeSlot = ({ date, dailyTimeSlots, onTimeSelect }) => {
       </div>
       <div>
         {
-          dailyTimeSlots.length === 0 ? (
+          dailyTimeSlots && dailyTimeSlots.length === 0 ? (
             <div>
               <span>No slots available.</span>
             </div>
           ) : (
             <ul>
               {
-                dailyTimeSlots.map((time, index) => (
+                dailyTimeSlots && dailyTimeSlots.map((time, index) => (
                   <li key={index} className="mb-4">
                     <Button
                       onClick={() => onTimeSelect(time)}
