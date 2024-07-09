@@ -89,7 +89,7 @@ function Score({ session }) {
   return (
     <div className="mt-8">
       <div className="flex justify-between">
-        <p>Rating: </p>
+        <p>Rating:  </p>
         <Rating>
           {
             rating.map((r) => (
@@ -106,7 +106,7 @@ function Score({ session }) {
         </Rating>
       </div>
       <div className="flex justify-between">
-        <p>Note:</p>
+        <p>Note:  </p>
         <div>{session.note}</div>
       </div>
     </div>
