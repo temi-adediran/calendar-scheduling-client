@@ -101,9 +101,9 @@ function DisplayAvailableDates() {
                     )
                   }
                 </div>
-                {/* <div className="pl-4">
+                <div className="pl-4">
                   <button className="text-l" onClick={(e) => handleDelete(e, available_date.id)}>x</button>
-                </div> */}
+                </div>
               </div>
             </div>
           )
