@@ -42,7 +42,7 @@ function DisplayAvailableDates() {
 
   return (
     <div>
-      <h3 className="mb-6">Upcoming specific time slots</h3>
+      <h3 className="mb-6">Upcoming date-specific hours</h3>
 
       <div>
         {
@@ -65,9 +65,9 @@ function DisplayAvailableDates() {
                     )
                   }
                 </div>
-                <div className="pl-4">
+                {/* <div className="pl-4">
                   <button className="text-l" onClick={(e) => handleDelete(e, available_date.id)}>x</button>
-                </div>
+                </div> */}
               </div>
             </div>
           )

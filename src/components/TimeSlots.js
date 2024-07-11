@@ -6,7 +6,7 @@ function TimeSlots({ day, selectedTimeSlots, handleAddSlot, handleRemoveSlot, ha
   return (
     <>
       <div className="flex">
-        <Checkbox id="${day}" className="mr-2" />
+        <Checkbox id="${day}" checked={selectedTimeSlots[day].length > 0} readOnly className="mr-2" />
         <Label htmlFor="${day}" className="mr-4">{day}</Label>
       </div>
 

@@ -20,7 +20,7 @@ function AvailableDates({ handleCloseCalendar }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if any timeslot is overlapping another, alert and return error
+    // to do: if any timeslot is overlapping another, alert and return error message
 
     const submitAvailableDates = async (data) => {
       try {
@@ -78,7 +78,7 @@ function AvailableDates({ handleCloseCalendar }) {
                 next2Label={null}
               />
             </div>
-
+            <div className="text-start">{formatDate(date)}</div>
             <div className="flex items-baseline justify-between">
               <div className="pb-8">
                 {

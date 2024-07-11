@@ -70,7 +70,7 @@ function BookSession({ coach }) {
       <div className="">
         <div className='mt-12 text-center'>
           <div>
-            <h2>Schedule a Stepful Coaching Call with Coach {coach.name} </h2>
+            <h2>Schedule a Stepful Session with Coach {coach.name || coach.id} </h2>
           </div>
           <div>
             <h2>Time: 2 Hours</h2>
