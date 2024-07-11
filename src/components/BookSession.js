@@ -5,10 +5,11 @@ import BookTimeSlot from "./BookTimeSlot";
 import { BaseService } from '../services/BaseService';
 import { formatDate } from '../utils/functions';
 
+const today = new Date();
+const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
 
 function BookSession({ coach }) {
-  const today = new Date();
-  const [date, setDate] = useState(today);
+  const [date, setDate] = useState(tomorrow);
   const [month, setMonth] = useState(formatDate(today));
   const [monthlyTimeSlots, setMonthlyTimeSlots] = useState({ [formatDate(today)]: [] });
 
@@ -92,7 +93,7 @@ function BookSession({ coach }) {
                   onChange={handleChange}
                   onActiveStartDateChange={handleMonthChange}
                   view={"month"}
-                  minDate={today}
+                  minDate={tomorrow}
                   prev2Label={null}
                   next2Label={null}
                   tileDisabled={disabledDates}
