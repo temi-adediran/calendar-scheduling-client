@@ -1,9 +1,45 @@
 import { useState, useEffect } from "react";
 import { Button } from "flowbite-react";
-import AvailableDates from "./AvailableDates";
+import SelectAvailableDates from "./SelectAvailableDates";
 import { BaseService } from "../services/BaseService";
-import { getCalculatedTime } from "../utils/functions";
+import { getCalculatedTime, formatDateWithDay } from "../utils/functions";
 import UnavailableDate from "./UnavailableDate"
+
+
+function DateSpecificTimeSlots() {
+  const [showCalendar, setShowCalendar] = useState(false)
+
+  const handleCloseCalendar = (e) => {
+    e.preventDefault();
+    setShowCalendar(false);
+  }
+
+  return (
+    <div>
+      <div>
+        <h3 className="mb-4">Date Specific Hours</h3>
+        <p className="mb-4">Override your availability for specific dates when your hours differ from your regular weekly hours.</p>
+      </div>
+
+      <div className="mb-16">
+        <div className="pt-4">
+          <Button
+            onClick={() => setShowCalendar(true)}
+            outline
+            color="blue"
+          >
+            Add date-specific hours
+          </Button>
+        </div>
+      </div>
+
+      {showCalendar && <SelectAvailableDates handleCloseCalendar={handleCloseCalendar} />}
+      {!showCalendar && <DisplayAvailableDates />}
+    </div>
+  )
+}
+
+
 
 
 function DisplayAvailableDates() {
@@ -50,7 +86,7 @@ function DisplayAvailableDates() {
             <div key={index}>
               <div className="flex justify-between mb-6">
                 <div>
-                  <div>{available_date.date}</div>
+                  <div>{formatDateWithDay(new Date(available_date.date))}</div>
                 </div>
                 <div>
                   {
@@ -79,40 +115,4 @@ function DisplayAvailableDates() {
 
 
 
-
-function SpecificTimeSlots() {
-  const [showCalendar, setShowCalendar] = useState(false)
-
-  const handleCloseCalendar = (e) => {
-    e.preventDefault();
-    setShowCalendar(false);
-  }
-
-  return (
-    <div>
-      <div>
-        <h3 className="mb-4">Date Specific Hours</h3>
-        <p className="mb-4">Override your availability for specific dates when your hours differ from your regular weekly hours.</p>
-      </div>
-
-      <div className="mb-16">
-        <div className="pt-4">
-          <Button
-            onClick={() => setShowCalendar(true)}
-            outline
-            color="blue"
-          >
-            Add date-specific hours
-          </Button>
-        </div>
-      </div>
-
-      {showCalendar && <AvailableDates handleCloseCalendar={handleCloseCalendar} />}
-      {!showCalendar && <DisplayAvailableDates />}
-    </div>
-  )
-}
-
-
-
-export default SpecificTimeSlots;
+export default DateSpecificTimeSlots;

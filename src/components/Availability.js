@@ -1,6 +1,6 @@
 import RecurringTimeSlots from './RecurringTimeSlots';
 import { Card } from "flowbite-react";
-import SpecificTimeSlots from "./SpecificTimeSlots";
+import DateSpecificTimeSlots from "./DateSpecificTimeSlots";
 
 function Availability() {
   return (
@@ -25,7 +25,7 @@ function Availability() {
           <Card className="p-8 mr-8 max-w-lg">
             <div>
               <div>
-                <SpecificTimeSlots />
+                <DateSpecificTimeSlots />
               </div>
             </div>
           </Card>

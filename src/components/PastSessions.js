@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BaseService } from '../services/BaseService';
 import { Button, Card } from "flowbite-react";
-import { formatDate, getCalculatedTime } from "../utils/functions";
+import { formatDateWithDay, getCalculatedTime } from "../utils/functions";
 import ScoreForm from "./Score";
 import { Rating } from "flowbite-react";
 
@@ -48,15 +48,12 @@ function PastSessions() {
                 <div key={index} className="mb-4">
                   <Card className="max-w-sm">
                     <div>
-                      <h3>{formatDate(new Date(session.time_booked))}</h3>
+                      <h3>{formatDateWithDay(new Date(session.time_booked))}</h3>
                     </div>
                     <div>
                       { session.start_time } - { getCalculatedTime(session.start_time) }
                     </div>
                     <hr></hr>
-
-                    <div>Coach: {session.coach_name}</div>
-                    <div className="mb-4">Phone no: {session.coach_phone_no} </div>
 
                     <div>Student: {session.student_name}</div>
                     <div className="mb-4">Phone no: {session.student_phone_no}</div>

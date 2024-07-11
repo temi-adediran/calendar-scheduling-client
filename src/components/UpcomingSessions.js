@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BaseService } from '../services/BaseService';
 import { useAuth } from "../hooks/useAuth";
 import { Card } from "flowbite-react";
-import { getCalculatedTime, formatDate } from "../utils/functions";
+import { getCalculatedTime, formatDateWithDay } from "../utils/functions";
 
 function UpcomingSessions() {
   const { isAuthenticated } = useAuth();
@@ -42,17 +42,29 @@ function UpcomingSessions() {
                 <div key={index} className="mb-4">
                   <Card className="max-w-sm">
                     <div>
-                      <h3>{formatDate(new Date(session.time_booked))}</h3>
+                      <h3>{formatDateWithDay(new Date(session.time_booked))}</h3>
                     </div>
                     <div>
                       { session.start_time } - { getCalculatedTime(session.start_time) }
                     </div>
                     <hr></hr>
-                    <div>Coach: {session.coach_name}</div>
-                    <div className="mb-4">Phone no: {session.coach_phone_no} </div>
+                    {
+                      isAuthenticated === "student" && (
+                        <>
+                          <div>Coach: {session.coach_name}</div>
+                          <div className="mb-4">Phone no: {session.coach_phone_no} </div>
+                        </>
+                      )
+                    }
 
-                    <div>Student: {session.student_name}</div>
-                    <div>Phone no: {session.student_phone_no}</div>
+                    {
+                      isAuthenticated === "coach" && (
+                        <>
+                          <div>Student: {session.student_name}</div>
+                          <div>Phone no: {session.student_phone_no}</div>
+                        </>
+                      )
+                    }
                   </Card>
                 </div>
               )

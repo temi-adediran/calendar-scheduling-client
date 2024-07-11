@@ -38,7 +38,7 @@ function RecurringTimeSlots() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if any timeslot is overlapping another, alert and return error
+    // to do: if any timeslot is overlapping another, alert and return error
 
     const submitRecurringHours = async (data) => {
       try {

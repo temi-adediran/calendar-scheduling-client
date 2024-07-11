@@ -8,7 +8,7 @@ import { BaseService } from '../services/BaseService';
 import UnavailableDate from "./UnavailableDate";
 
 
-function AvailableDates({ handleCloseCalendar }) {
+function SelectAvailableDates({ handleCloseCalendar }) {
   const today = new Date();
   const [date, setDate] = useState(today);
   const [timeSlots, setTimeSlots] = useState(["9:00"]);
@@ -124,4 +124,4 @@ function AvailableDates({ handleCloseCalendar }) {
   )
 }
 
-export default AvailableDates;
+export default SelectAvailableDates;
