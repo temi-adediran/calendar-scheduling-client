@@ -4,6 +4,8 @@ import UpcomingSessions from "../components/UpcomingSessions";
 import Availability from '../components/Availability';
 import PastSessions from '../components/PastSessions';
 
+// refactor and create useTab()
+
 const TabContext = createContext({
   activeTabValue: null,
   setActiveTabValue: () => {}

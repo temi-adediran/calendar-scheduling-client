@@ -18,6 +18,7 @@ function TimeSlots({ day, selectedTimeSlots, handleAddSlot, handleRemoveSlot, ha
             selectedTimeSlots[day].map((timeSlot, index) => {
               return (
                 <div className="flex items-baseline pb-4" key={index}>
+                  {/* add key to Timeslot to remove the unnecessary useEffect */}
                   <TimeSlot
                     day={day}
                     index={index}

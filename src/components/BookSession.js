@@ -14,22 +14,30 @@ function BookSession({ coach }) {
   const [monthlyTimeSlots, setMonthlyTimeSlots] = useState({ [formatDate(today)]: [] });
 
   useEffect(() => {
+    // use today variable now that it's not reactive
     const thisMonth = formatDate(new Date())
     setMonth(thisMonth);
   }, [])
 
   useEffect(() => {
+    // solve for race condition
+    // consider useMemo
+    let ignore = false;
+    const getAvailableDatesByMonth = async () => {
+      try {
+        const response = await BaseService.get(`available_slots_by_month?month=${month}&id=${coach.id}`);
+        if (!ignore) { setMonthlyTimeSlots(response) }
+      } catch (e) {
+        console.log(e);
+      }
+
+      return () => {
+        ignore = true;
+      };
+    }
+
     getAvailableDatesByMonth();
   }, [month, coach])
-
-  const getAvailableDatesByMonth = async () => {
-    try {
-      const response = await BaseService.get(`available_slots_by_month?month=${month}&id=${coach.id}`);
-      setMonthlyTimeSlots(response);
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   const handleMonthChange = ({ activeStartDate }) => {
     const selectedMonth = formatDate(activeStartDate);

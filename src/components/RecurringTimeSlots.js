@@ -54,9 +54,12 @@ function RecurringTimeSlots() {
     submitRecurringHours({ "recurring_hour": selectedTimeSlots });
   }
 
+  // refactor events below to use reducer
+
   const handleUpdateTimeSlot = (e, day, index) => {
     const newStartTime = e.target.value;
     const dayTimeSlots = selectedTimeSlots[day];
+    // refactor from using index
     dayTimeSlots[index] = newStartTime;
     setSelectedTimeSlots({ ...selectedTimeSlots, [day]: dayTimeSlots })
   }

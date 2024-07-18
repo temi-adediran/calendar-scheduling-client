@@ -4,6 +4,8 @@ import { getCalculatedTime } from "../utils/functions";
 import { startTimeIntervals, endTimeIntervals } from "../utils/constants";
 
 function TimeSlot({ day, index, timeSlot, handleRemoveSlot, handleUpdateTimeSlot }) {
+  // get rid of the endTime state and useEffect by calculating directly. The key prop should reset it.
+  // Or: check if endTime !== getCalculatedTime(timeSlot), then set it while rendering without useEffect
   const [endTime, setEndTime] = useState(getCalculatedTime(timeSlot));
 
   useEffect(() => {
