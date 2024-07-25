@@ -56,7 +56,7 @@ function timeSlotsReducer(timeSlots, action) {
   }
 }
 
-
+// Fix: Booking time slots are not refreshed
 function RecurringTimeSlots() {
   const [weeklyTimeSlots, dispatch] = useReducer(timeSlotsReducer, initialState);
 

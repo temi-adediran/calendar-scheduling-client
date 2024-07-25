@@ -1,9 +1,10 @@
-import React, { useState, useEffect, act } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import BookTimeSlot from "./BookTimeSlot";
 import { BaseService } from '../services/BaseService';
 import { formatDate } from '../utils/functions';
+// import { useData } from "../hooks/useData";
 
 const today = new Date();
 const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
@@ -14,14 +15,11 @@ function BookSession({ coach }) {
   const [monthlyTimeSlots, setMonthlyTimeSlots] = useState({ [formatDate(today)]: [] });
 
   useEffect(() => {
-    // use today variable now that it's not reactive
-    const thisMonth = formatDate(new Date())
+    const thisMonth = formatDate(today)
     setMonth(thisMonth);
   }, [])
 
   useEffect(() => {
-    // solve for race condition
-    // consider useMemo
     let ignore = false;
     const getAvailableDatesByMonth = async () => {
       try {

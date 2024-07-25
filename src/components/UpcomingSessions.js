@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react";
-import { BaseService } from '../services/BaseService';
 import { useAuth } from "../hooks/useAuth";
 import { Card } from "flowbite-react";
 import { getCalculatedTime, formatDateWithDay } from "../utils/functions";
+import { useData } from "../hooks/useData";
 
 function UpcomingSessions() {
   const { isAuthenticated } = useAuth();
-  const [upcomingSessions, setUpcomingSessions] = useState([]);
+  const url = `upcoming_session?user_type=${isAuthenticated}`;
+  const [upcomingSessions] = useData(url, []);
 
-  useEffect(() => {
-    const getUpcomingSessions = async () => {
-      try {
-        const response = await BaseService.get(`upcoming_session?user_type=${isAuthenticated}`);
-        setUpcomingSessions(response);
-      } catch (e) {
-        console.log(e)
-      }
-    }
+  // useEffect(() => {
+  //   const getUpcomingSessions = async () => {
+  //     try {
+  //       const response = await BaseService.get(`upcoming_session?user_type=${isAuthenticated}`);
+  //       setUpcomingSessions(response);
+  //     } catch (e) {
+  //       console.log(e)
+  //     }
+  //   }
 
-    getUpcomingSessions();
-  }, [isAuthenticated])
+  //   getUpcomingSessions();
+  // }, [isAuthenticated])
 
 
   return (
