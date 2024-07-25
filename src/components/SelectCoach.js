@@ -1,30 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "flowbite-react";
-import { BaseService } from '../services/BaseService';
 import BookSession from "./BookSession";
+import { useData } from "../hooks/useData";
 
 function SelectCoach() {
-  const [coaches, setCoaches] = useState([]);
   const [active, setActive] = useState(5);
+  const [coaches] = useData(`get_all_coaches`, []);
 
   const handleSelectCoach = (e, id) => {
     e.preventDefault();
     setActive(id)
   }
-
-  useEffect(() => {
-    const getAllCoaches = async () => {
-      try {
-        const response = await BaseService.get("get_all_coaches");
-        setCoaches(response);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    getAllCoaches();
-  }, [])
-
 
   return (
     <div className="text-justify m-8">

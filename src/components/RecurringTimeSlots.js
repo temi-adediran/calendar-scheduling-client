@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer } from "react";
 import { BaseService } from '../services/BaseService';
 import TimeSlots from '../components/TimeSlots';
 import { Button } from "flowbite-react";
@@ -18,16 +18,53 @@ const defaultTimeSlots = () => {
   return obj;
 }
 
-// Add comments to this file
 
+function timeSlotsReducer(timeSlots, action) {
+  switch (action.type) {
+    case "initial": {
+      return action.initialTimeSlots;
+    }
+
+    case "added": {
+      const { day } = action;
+      const defaultLastIndexTimeSlot = "6:00"
+      const dayTimeSlots = timeSlots[day];
+      const lastIndexTimeSlot = dayTimeSlots[dayTimeSlots.length - 1] || defaultLastIndexTimeSlot
+      // Use 3 hours to calculate the next time slot, which gives 2 hours for default end time and 1 hour to rest in between sessions.
+      const newTimeSlot = getCalculatedTime(lastIndexTimeSlot, 3);
+      const updatedDayTimeSlots = [...dayTimeSlots, newTimeSlot];
+      return { ...timeSlots, [day]: updatedDayTimeSlots }
+    }
+
+    case "updated": {
+      const { day, index, newStartTime } = action;
+      const dayTimeSlots = timeSlots[day];
+      const updatedTimeSlots = [ ...dayTimeSlots.slice(0, index), newStartTime, ...dayTimeSlots.slice(index + 1) ]
+      return { ...timeSlots, [day]: updatedTimeSlots }
+    }
+
+    case "removed": {
+      const { day, index } = action;
+      const dayTimeSlots = timeSlots[day];
+      const updatedTimeSlots = dayTimeSlots.filter((v, i) => i !== index )
+      return { ...timeSlots, [day]: updatedTimeSlots }
+    }
+
+    default: {
+      throw Error('Unknown action: ' + action.type);
+    }
+  }
+}
+
+// Fix: Booking time slots are not refreshed
 function RecurringTimeSlots() {
-  const [selectedTimeSlots, setSelectedTimeSlots] = useState(initialState);
+  const [weeklyTimeSlots, dispatch] = useReducer(timeSlotsReducer, initialState);
 
   useEffect(() => {
     const getAvailableDates = async () => {
       try {
         const response = await BaseService.get("get_recurring_hours");
-        response == null ? setSelectedTimeSlots(defaultTimeSlots()) : setSelectedTimeSlots(response);
+        dispatch({ type: "initial", initialTimeSlots: response == null ? defaultTimeSlots() : response })
       } catch (e) {
         console.log(e);
       }
@@ -51,31 +88,36 @@ function RecurringTimeSlots() {
       }
     }
 
-    submitRecurringHours({ "recurring_hour": selectedTimeSlots });
+    submitRecurringHours({ "recurring_hour": weeklyTimeSlots });
   }
 
   const handleUpdateTimeSlot = (e, day, index) => {
     const newStartTime = e.target.value;
-    const dayTimeSlots = selectedTimeSlots[day];
-    dayTimeSlots[index] = newStartTime;
-    setSelectedTimeSlots({ ...selectedTimeSlots, [day]: dayTimeSlots })
+
+    dispatch({
+      type: "updated",
+      newStartTime: newStartTime,
+      day: day,
+      index: index
+    })
   }
 
-  const handleAddSlot = (e, day) => {
-    e.preventDefault()
-    const defaultLastIndexTimeSlot = "6:00"
-    const currentTimeSlots = selectedTimeSlots[day];
-    const lastIndexTimeSlot = currentTimeSlots[currentTimeSlots.length - 1] || defaultLastIndexTimeSlot
-    const newTimeSlot = getCalculatedTime(lastIndexTimeSlot, 3);
-    const updatedTimeSlots = [...currentTimeSlots, newTimeSlot];
-    setSelectedTimeSlots({ ...selectedTimeSlots, [day]: updatedTimeSlots })
-  }
-
-  const handleRemoveSlot = (e, day, index) => {
+  const handleAddTimeSlot = (e, day) => {
     e.preventDefault();
-    const timeSlot = selectedTimeSlots[day][index];
-    const updatedTimeSlots = selectedTimeSlots[day].filter((time) => timeSlot !== time);
-    setSelectedTimeSlots({ ...selectedTimeSlots, [day]: updatedTimeSlots })
+    dispatch({
+      type: "added",
+      day: day
+    })
+  }
+
+  const handleRemoveTimeSlot = (e, day, index) => {
+    e.preventDefault();
+
+    dispatch({
+      type: "removed",
+      day: day,
+      index: index
+    })
   }
 
   return (
@@ -86,9 +128,9 @@ function RecurringTimeSlots() {
             <div key={index} className="mb-4 flex justify-between items-baseline">
               <TimeSlots
                 day={day}
-                selectedTimeSlots={selectedTimeSlots}
-                handleAddSlot={handleAddSlot}
-                handleRemoveSlot={handleRemoveSlot}
+                selectedTimeSlots={weeklyTimeSlots}
+                handleAddSlot={handleAddTimeSlot}
+                handleRemoveSlot={handleRemoveTimeSlot}
                 handleUpdateTimeSlot={handleUpdateTimeSlot}
               />
             </div>

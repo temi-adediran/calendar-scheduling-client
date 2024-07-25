@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "flowbite-react";
 import SelectAvailableDates from "./SelectAvailableDates";
 import { BaseService } from "../services/BaseService";
 import { getCalculatedTime, formatDateWithDay } from "../utils/functions";
 import UnavailableDate from "./UnavailableDate"
+import { useData } from "../hooks/useData";
 
 
 function DateSpecificTimeSlots() {
@@ -43,28 +44,14 @@ function DateSpecificTimeSlots() {
 
 
 function DisplayAvailableDates() {
-  const [availableDates, SetAvailableDates] = useState([]);
-
-  useEffect(() => {
-    const getUpcomingAvailableDates = async () => {
-      try {
-        const response = await BaseService.get("get_available_dates");
-        SetAvailableDates(response);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    getUpcomingAvailableDates();
-  }, []);
+  const [availableDates, setAvailableDates] = useData("get_available_dates", []);
 
   const handleDelete = (e, id) => {
     const deleteAvailableDate = async (data) => {
       try {
-        const response = await BaseService.delete("delete_available_date", data)
-
+        await BaseService.delete("delete_available_date", data)
         const updatedAvailableDates = availableDates.filter((date) => date.id !== id)
-        SetAvailableDates(updatedAvailableDates);
+        setAvailableDates(updatedAvailableDates);
 
         alert("Deleted successfully.")
       } catch (e) {
