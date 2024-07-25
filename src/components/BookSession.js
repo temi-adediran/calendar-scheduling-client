@@ -1,4 +1,4 @@
-import React, { useState, useEffect, act } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import BookTimeSlot from "./BookTimeSlot";
@@ -14,22 +14,27 @@ function BookSession({ coach }) {
   const [monthlyTimeSlots, setMonthlyTimeSlots] = useState({ [formatDate(today)]: [] });
 
   useEffect(() => {
-    const thisMonth = formatDate(new Date())
+    const thisMonth = formatDate(today)
     setMonth(thisMonth);
   }, [])
 
   useEffect(() => {
+    let ignore = false;
+    const getAvailableDatesByMonth = async () => {
+      try {
+        const response = await BaseService.get(`available_slots_by_month?month=${month}&id=${coach.id}`);
+        if (!ignore) { setMonthlyTimeSlots(response) }
+      } catch (e) {
+        console.log(e);
+      }
+
+      return () => {
+        ignore = true;
+      };
+    }
+
     getAvailableDatesByMonth();
   }, [month, coach])
-
-  const getAvailableDatesByMonth = async () => {
-    try {
-      const response = await BaseService.get(`available_slots_by_month?month=${month}&id=${coach.id}`);
-      setMonthlyTimeSlots(response);
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   const handleMonthChange = ({ activeStartDate }) => {
     const selectedMonth = formatDate(activeStartDate);

@@ -1,32 +1,18 @@
-import { useEffect, useState } from "react";
-import { BaseService } from '../services/BaseService';
+import { useState } from "react";
 import { Button, Card } from "flowbite-react";
 import { formatDateWithDay, getCalculatedTime } from "../utils/functions";
 import ScoreForm from "./Score";
 import { Rating } from "flowbite-react";
+import { useData } from "../hooks/useData";
 
 function PastSessions() {
-  const [pastSessions, setPastSessions] = useState([]);
   const [showDetail, setShowDetail] = useState(0);
+  const [pastSessions] = useData(`past_session`, []);
 
   const handleShowDetail = (e, id) => {
     e.preventDefault();
     setShowDetail(id);
   }
-
-  useEffect(() => {
-    const getPastSessions = async () => {
-      try {
-        const response = await BaseService.get(`past_session`);
-        setPastSessions(response);
-      } catch (e) {
-        console.log(e)
-      }
-    }
-
-    getPastSessions();
-  }, [])
-
 
   return (
     <div className="mx-auto flex flex-col justify-center items-center px-6 pt-8 pt:mt-0">

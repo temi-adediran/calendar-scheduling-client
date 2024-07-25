@@ -19,6 +19,7 @@ function TimeSlots({ day, selectedTimeSlots, handleAddSlot, handleRemoveSlot, ha
               return (
                 <div className="flex items-baseline pb-4" key={index}>
                   <TimeSlot
+                    key={index}
                     day={day}
                     index={index}
                     timeSlot={timeSlot}
