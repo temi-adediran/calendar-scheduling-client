@@ -1,16 +1,8 @@
 import { Select } from "flowbite-react";
-import { useEffect, useState } from "react";
 import { getCalculatedTime } from "../utils/functions";
 import { startTimeIntervals, endTimeIntervals } from "../utils/constants";
 
 function TimeSlot({ day, index, timeSlot, handleRemoveSlot, handleUpdateTimeSlot }) {
-  // get rid of the endTime state and useEffect by calculating directly. The key prop should reset it.
-  // Or: check if endTime !== getCalculatedTime(timeSlot), then set it while rendering without useEffect
-  const [endTime, setEndTime] = useState(getCalculatedTime(timeSlot));
-
-  useEffect(() => {
-    setEndTime(getCalculatedTime(timeSlot));
-  }, [timeSlot])
 
   return (
     <div className="flex items-center">
@@ -22,7 +14,7 @@ function TimeSlot({ day, index, timeSlot, handleRemoveSlot, handleUpdateTimeSlot
 
       <span className="pr-2 pl-2"> - </span>
 
-      <Select id="end-time" value={endTime} disabled>
+      <Select id="end-time" value={getCalculatedTime(timeSlot)} disabled>
         {endTimeIntervals.map((time) => (
           <option key={time}>{time}</option>
         ))}

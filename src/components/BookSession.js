@@ -4,7 +4,6 @@ import 'react-calendar/dist/Calendar.css';
 import BookTimeSlot from "./BookTimeSlot";
 import { BaseService } from '../services/BaseService';
 import { formatDate } from '../utils/functions';
-// import { useData } from "../hooks/useData";
 
 const today = new Date();
 const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
